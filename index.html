@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C++ From Zero — Learn C++ with Interactive Demos</title>
+<meta name="description" content="A free, beginner-friendly course that teaches C++ from scratch with animated demos, worked examples, and hands-on practice in every chapter.">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:,">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <a class="brand" href="index.html"><span class="logo-mark">{ }</span> C++ From Zero</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="chapters/01-introduction.html">Start Learning</a>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">☾</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <span class="eyebrow">Zero experience required</span>
+  <h1>Learn C++ from absolute zero — with animations that make it click.</h1>
+  <p class="lede">
+    Twelve short, friendly chapters take you from "what is a program?" to writing
+    functions, arrays, pointers, and simple classes. Every idea gets an interactive
+    animated demo, real code you can read, and practice exercises graded instantly
+    in your browser.
+  </p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="chapters/01-introduction.html">Start Chapter 1 →</a>
+    <a class="btn" href="getting-started.html">Set up a compiler first</a>
+  </div>
+  <div class="hero-stats">
+    <div><strong>12</strong><span>Chapters</span></div>
+    <div><strong>30+</strong><span>Animated demos</span></div>
+    <div><strong>40+</strong><span>Practice exercises</span></div>
+    <div><strong>$0</strong><span>Cost</span></div>
+  </div>
+</section>
+
+<main id="main" class="page-shell no-sidebar">
+  <div class="progress-wrap card">
+    <strong>Your progress</strong>
+    <div class="progress-bar" data-progress-bar><span></span></div>
+    <div class="progress-label" data-progress-label>0 of 12 chapters complete (0%)</div>
+  </div>
+
+  <h2>How this course works</h2>
+  <p>
+    Each chapter follows the same rhythm: a plain-language explanation of one idea,
+    a small <strong>animated demo you control</strong> (step through it or hit play),
+    a couple of real code examples with explained output, and exercises where you
+    predict output or write code yourself. Nothing to install to start reading —
+    when you're ready to write and run your own programs, see
+    <a href="getting-started.html">Getting Started</a> for a two-minute compiler setup.
+  </p>
+
+  <h2>Course outline</h2>
+  <div class="chapter-grid" id="chapter-grid"></div>
+
+  <h2>What you'll be able to build</h2>
+  <p>
+    By the end of Chapter 12 you'll comfortably read and write C++ programs that use
+    variables, decisions, loops, functions, arrays, strings, pointers, and simple
+    classes — enough foundation to tackle data structures, algorithms, or your first
+    real project.
+  </p>
+</main>
+
+<footer class="site-footer">
+  <p>C++ From Zero — a free, static, no-tracking learning site. Built for people who have never written a line of code before.</p>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+  (function () {
+    var grid = document.getElementById("chapter-grid");
+    var blurbs = {
+      "01": "What a compiler does, and your first Hello World program.",
+      "02": "Storing data in memory: int, double, char, bool, and string.",
+      "03": "Arithmetic, comparison, and logical operators.",
+      "04": "Reading input and printing output with cin and cout.",
+      "05": "Branching logic with if, else if, else, and switch.",
+      "06": "Repeating work with for, while, and do-while loops.",
+      "07": "Organizing code into functions and understanding the call stack.",
+      "08": "Storing collections of values in arrays and std::vector.",
+      "09": "Building and manipulating text with std::string.",
+      "10": "Memory addresses, pointers, and references — demystified.",
+      "11": "Bundling data and behavior with structs and classes.",
+      "12": "Functions that call themselves: recursion, visualized."
+    };
+    (window.CPP101_CHAPTERS || []).forEach(function (ch, i) {
+      var a = document.createElement("a");
+      a.className = "chapter-card";
+      a.href = "chapters/" + ch.file;
+      a.setAttribute("data-chapter-card", ch.id);
+      a.innerHTML =
+        '<div class="num">Chapter ' + (i + 1) + ' <span class="check"></span></div>' +
+        "<h3>" + ch.title + "</h3>" +
+        "<p>" + (blurbs[ch.id] || "") + "</p>";
+      grid.appendChild(a);
+    });
+  })();
+</script>
+</body>
+</html>

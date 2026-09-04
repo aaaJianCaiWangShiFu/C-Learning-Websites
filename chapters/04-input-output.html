@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4. Input &amp; Output — C++ From Zero</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" href="data:,">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <a class="brand" href="../index.html"><span class="logo-mark">{ }</span> C++ From Zero</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../getting-started.html">Getting Started</a>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">☾</button>
+  </nav>
+</header>
+
+<div class="page-shell">
+  <aside class="chapter-nav" data-chapter-nav><h4>Chapters</h4></aside>
+
+  <main class="content" id="main">
+    <span class="eyebrow">Chapter 4</span>
+    <h1>Input &amp; Output</h1>
+    <p class="lede">So far your programs have only printed fixed text. Real programs react to what the user types. C++ uses <code>std::cout</code> to write to the console and <code>std::cin</code> to read from it.</p>
+
+    <h2>Reading a single value</h2>
+    <pre class="code-block"><code>#include &lt;iostream&gt;
+
+int main() {
+    int age;
+    std::cout &lt;&lt; "How old are you? ";
+    std::cin &gt;&gt; age;
+    std::cout &lt;&lt; "You are " &lt;&lt; age &lt;&lt; " years old." &lt;&lt; std::endl;
+    return 0;
+}</code></pre>
+    <p><code>std::cin &gt;&gt; age;</code> pauses the program, waits for the user to type something and press Enter, then converts that text into a number and stores it in <code>age</code>. Notice the arrows point the opposite way from <code>cout</code>: data flows <em>into</em> your variable.</p>
+
+    <div class="demo">
+      <div class="demo-title">Demo — watch cin/cout drive a real conversation</div>
+      <div class="demo-sub">Fill in what the "user" types, then press Run to see the program execute line by line.</div>
+      <div class="demo-controls" style="margin-bottom:0.8rem;">
+        <input type="text" id="io-name" value="Maya" placeholder="name" style="width:120px;">
+        <input type="number" id="io-age" value="28" placeholder="age">
+        <button class="btn btn-sm btn-primary" id="io-run">▶ Run Program</button>
+        <button class="btn btn-sm" id="io-reset">↺ Reset</button>
+      </div>
+      <div class="demo-stage" id="io-stage" style="display:block; text-align:left; background:#05070a; color:#c7f9d9; font-family:'Cascadia Code',monospace; font-size:0.85rem; min-height:150px; padding:1rem;"></div>
+    </div>
+    <div class="code-caption"><span>the program being simulated above</span><span>C++</span></div>
+    <pre class="code-block"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+int main() {
+    std::string name;
+    int age;
+
+    std::cout &lt;&lt; "What is your name? ";
+    std::cin &gt;&gt; name;
+
+    std::cout &lt;&lt; "How old are you? ";
+    std::cin &gt;&gt; age;
+
+    std::cout &lt;&lt; "Hi " &lt;&lt; name &lt;&lt; "! In 10 years you'll be " &lt;&lt; (age + 10) &lt;&lt; "." &lt;&lt; std::endl;
+    return 0;
+}</code></pre>
+
+    <h2>Reading more than one value at once</h2>
+    <p>You can chain multiple <code>&gt;&gt;</code> in one statement. The user can separate values with spaces or new lines:</p>
+    <pre class="code-block"><code>int width, height;
+std::cout &lt;&lt; "Enter width and height: ";
+std::cin &gt;&gt; width &gt;&gt; height;</code></pre>
+
+    <div class="callout warn">
+      <h4><code>std::cin &gt;&gt;</code> stops at whitespace</h4>
+      <p><code>std::cin &gt;&gt; name</code> only reads a single "word" — it stops at the first space. To read a whole line (like <code>"Ada Lovelace"</code>), use <code>std::getline(std::cin, name);</code> instead.</p>
+    </div>
+
+    <h2>Building output with <code>&lt;&lt;</code></h2>
+    <p>You can chain as many values as you like onto a single <code>cout</code> statement — text, numbers, and variables all mixed together:</p>
+    <pre class="code-block"><code>int x = 3, y = 4;
+std::cout &lt;&lt; "The point (" &lt;&lt; x &lt;&lt; ", " &lt;&lt; y &lt;&lt; ") is " &lt;&lt; (x + y) &lt;&lt; " units from the origin (by taxicab distance)." &lt;&lt; std::endl;</code></pre>
+    <div class="output-block">The point (3, 4) is 7 units from the origin (by taxicab distance).</div>
+
+    <h2>Practice</h2>
+
+    <div class="exercise">
+      <span class="ex-label">Exercise 1 — Predict the output</span>
+      <p>If the user types <code>6</code> then <code>7</code> when prompted:</p>
+      <pre class="code-block"><code>int a, b;
+std::cin &gt;&gt; a &gt;&gt; b;
+std::cout &lt;&lt; "Sum: " &lt;&lt; (a + b) &lt;&lt; std::endl;</code></pre>
+      <div class="quiz predict-output" data-answer="Sum: 13">
+        <div class="quiz-row">
+          <input type="text" placeholder="Type the output...">
+          <button class="btn btn-sm check-btn">Check</button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <span class="ex-label">Exercise 2 — Quick check</span>
+      <p>You need to read a full name like <code>"Grace Hopper"</code> including the space. Which should you use?</p>
+      <div class="quiz mcq" data-correct="1">
+        <div class="mcq-options">
+          <button data-choice="0"><code>std::cin &gt;&gt; name;</code></button>
+          <button data-choice="1"><code>std::getline(std::cin, name);</code></button>
+          <button data-choice="2"><code>std::cout &gt;&gt; name;</code></button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <span class="ex-label">Exercise 3 — Write it yourself</span>
+      <p>Write a program that asks for two numbers, reads them with <code>std::cin</code>, and prints their product.</p>
+      <details class="solution">
+        <summary>Show a sample solution</summary>
+        <pre class="code-block"><code>#include &lt;iostream&gt;
+
+int main() {
+    double a, b;
+    std::cout &lt;&lt; "Enter two numbers: ";
+    std::cin &gt;&gt; a &gt;&gt; b;
+    std::cout &lt;&lt; "Product: " &lt;&lt; (a * b) &lt;&lt; std::endl;
+    return 0;
+}</code></pre>
+      </details>
+    </div>
+
+    <div class="complete-bar">
+      <label><input type="checkbox" id="mark-complete" data-chapter-id="04"> Mark this chapter complete</label>
+      <a class="btn btn-sm" href="../index.html">Back to overview</a>
+    </div>
+
+    <div class="chapter-footnav">
+      <a class="prev" href="03-operators.html"><span class="dir">← Back</span>Operators &amp; Expressions</a>
+      <a class="next" href="05-conditionals.html"><span class="dir">Next →</span>Making Decisions</a>
+    </div>
+  </main>
+</div>
+
+<footer class="site-footer"><p>C++ From Zero — a free, static, no-tracking learning site.</p></footer>
+
+<script src="../js/main.js"></script>
+<script src="../js/highlight.js"></script>
+<script src="../js/quiz.js"></script>
+<script src="../js/animations.js"></script>
+<script>
+(function () {
+  var stage = document.getElementById("io-stage");
+  var runBtn = document.getElementById("io-run");
+  var resetBtn = document.getElementById("io-reset");
+
+  function clearStage() { stage.innerHTML = ""; stage.style.display = "block"; }
+  clearStage();
+
+  function line(text, cls) {
+    var d = document.createElement("div");
+    d.style.marginBottom = "0.3em";
+    d.style.opacity = "0";
+    d.style.transition = "opacity .25s ease";
+    if (cls === "prompt") d.style.color = "#9dffb0";
+    if (cls === "input") { d.style.color = "#7ab8ff"; d.textContent = text; }
+    else d.textContent = text;
+    stage.appendChild(d);
+    requestAnimationFrame(function () { d.style.opacity = "1"; });
+    return d;
+  }
+
+  function run() {
+    clearStage();
+    var name = document.getElementById("io-name").value || "Maya";
+    var age = parseInt(document.getElementById("io-age").value, 10);
+    if (isNaN(age)) age = 0;
+    var steps = [
+      function () { line("What is your name? ", "prompt"); },
+      function () { line("> " + name, "input"); },
+      function () { line("How old are you? ", "prompt"); },
+      function () { line("> " + age, "input"); },
+      function () { line("Hi " + name + "! In 10 years you'll be " + (age + 10) + "."); }
+    ];
+    var i = 0;
+    (function tick() {
+      if (i >= steps.length) return;
+      steps[i++]();
+      setTimeout(tick, 550);
+    })();
+  }
+
+  runBtn.addEventListener("click", run);
+  resetBtn.addEventListener("click", clearStage);
+})();
+</script>
+</body>
+</html>

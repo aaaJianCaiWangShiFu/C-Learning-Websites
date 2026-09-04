@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>9. Working with Strings — C++ From Zero</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" href="data:,">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <a class="brand" href="../index.html"><span class="logo-mark">{ }</span> C++ From Zero</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../getting-started.html">Getting Started</a>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">☾</button>
+  </nav>
+</header>
+
+<div class="page-shell">
+  <aside class="chapter-nav" data-chapter-nav><h4>Chapters</h4></aside>
+
+  <main class="content" id="main">
+    <span class="eyebrow">Chapter 9</span>
+    <h1>Working with Strings</h1>
+    <p class="lede">Text is everywhere in real programs — names, messages, file paths. C++'s <code>std::string</code> (from <code>&lt;string&gt;</code>) is really just an array of characters under the hood, wrapped with convenient tools.</p>
+
+    <h2>A string is a sequence of characters</h2>
+    <pre class="code-block"><code>#include &lt;string&gt;
+
+std::string word = "cats";</code></pre>
+    <p>Just like an array, each character has an index starting at 0:</p>
+
+    <div class="demo">
+      <div class="demo-title">Demo — a string is indexable, just like an array</div>
+      <div class="demo-sub">This is <code>std::string word = "cats";</code>. Click a letter to see how you'd access it.</div>
+      <div class="demo-stage" id="str-stage"></div>
+      <div class="demo-log" id="str-log">Click any letter above.</div>
+    </div>
+
+    <h2>Useful string operations</h2>
+    <pre class="code-block"><code>std::string name = "Ada";
+
+std::cout &lt;&lt; name.length() &lt;&lt; std::endl;      // 3
+std::cout &lt;&lt; name[0] &lt;&lt; std::endl;             // 'A'
+std::cout &lt;&lt; name + " Lovelace" &lt;&lt; std::endl;  // "Ada Lovelace"
+
+name += "!!!";                                  // name is now "Ada!!!"
+std::cout &lt;&lt; name &lt;&lt; std::endl;
+
+std::string sentence = "Hello, World!";
+std::cout &lt;&lt; sentence.substr(7, 5) &lt;&lt; std::endl; // "World" — 5 chars starting at index 7</code></pre>
+
+    <table>
+      <thead><tr><th>Operation</th><th>What it does</th></tr></thead>
+      <tbody>
+        <tr><td><code>s.length()</code></td><td>number of characters</td></tr>
+        <tr><td><code>s[i]</code></td><td>the character at index <code>i</code></td></tr>
+        <tr><td><code>s1 + s2</code></td><td>concatenation (joins two strings)</td></tr>
+        <tr><td><code>s += "..."</code></td><td>append text to the end</td></tr>
+        <tr><td><code>s.substr(start, len)</code></td><td>extract a piece of the string</td></tr>
+        <tr><td><code>s.find("x")</code></td><td>index where <code>"x"</code> first appears, or <code>std::string::npos</code> if absent</td></tr>
+        <tr><td><code>s1 == s2</code></td><td>true if the text is identical</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Comparing strings</h2>
+    <p>Unlike some languages, C++'s <code>==</code> works correctly on <code>std::string</code> and compares actual text content:</p>
+    <pre class="code-block"><code>std::string a = "cat";
+std::string b = "cat";
+std::cout &lt;&lt; (a == b) &lt;&lt; std::endl; // 1 (true)</code></pre>
+
+    <h2>Looping over characters</h2>
+    <pre class="code-block"><code>std::string word = "hello";
+for (char c : word) {
+    std::cout &lt;&lt; c &lt;&lt; "-";
+}</code></pre>
+    <div class="output-block">h-e-l-l-o-</div>
+
+    <div class="callout tip">
+      <h4><code>std::string</code> vs. C-style char arrays</h4>
+      <p>C++ inherited a more primitive text type from C: <code>char name[] = "Ada";</code>. You'll see it occasionally in older code, but <code>std::string</code> is safer and far easier to use — prefer it for everything in this course and in your own projects.</p>
+    </div>
+
+    <h2>Practice</h2>
+
+    <div class="exercise">
+      <span class="ex-label">Exercise 1 — Predict the output</span>
+      <pre class="code-block"><code>std::string s = "banana";
+std::cout &lt;&lt; s.length() &lt;&lt; std::endl;
+std::cout &lt;&lt; s[0] &lt;&lt; s[5] &lt;&lt; std::endl;</code></pre>
+      <div class="quiz predict-output" data-answer="6
+ba">
+        <div class="quiz-row">
+          <input type="text" placeholder="Type both lines...">
+          <button class="btn btn-sm check-btn">Check</button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <span class="ex-label">Exercise 2 — Quick check</span>
+      <p>What does <code>std::string("Hello, World!").substr(0, 5)</code> produce?</p>
+      <div class="quiz mcq" data-correct="0">
+        <div class="mcq-options">
+          <button data-choice="0"><code>"Hello"</code></button>
+          <button data-choice="1"><code>"World"</code></button>
+          <button data-choice="2"><code>"Hello,"</code></button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <span class="ex-label">Exercise 3 — Write it yourself</span>
+      <p>Write a program that reads a word with <code>std::cin</code> and prints it reversed, one character per line, using a loop that counts backward through its indices.</p>
+      <details class="solution">
+        <summary>Show a sample solution</summary>
+        <pre class="code-block"><code>std::string word;
+std::cin &gt;&gt; word;
+
+for (int i = word.length() - 1; i &gt;= 0; i--) {
+    std::cout &lt;&lt; word[i] &lt;&lt; std::endl;
+}</code></pre>
+      </details>
+    </div>
+
+    <div class="complete-bar">
+      <label><input type="checkbox" id="mark-complete" data-chapter-id="09"> Mark this chapter complete</label>
+      <a class="btn btn-sm" href="../index.html">Back to overview</a>
+    </div>
+
+    <div class="chapter-footnav">
+      <a class="prev" href="08-arrays.html"><span class="dir">← Back</span>Arrays &amp; Vectors</a>
+      <a class="next" href="10-pointers-references.html"><span class="dir">Next →</span>Pointers &amp; References</a>
+    </div>
+  </main>
+</div>
+
+<footer class="site-footer"><p>C++ From Zero — a free, static, no-tracking learning site.</p></footer>
+
+<script src="../js/main.js"></script>
+<script src="../js/highlight.js"></script>
+<script src="../js/quiz.js"></script>
+<script src="../js/animations.js"></script>
+<script>
+(function () {
+  var word = "cats";
+  var stage = document.getElementById("str-stage");
+  var log = document.getElementById("str-log");
+  var defs = word.split("").map(function (c, i) { return { id: i, name: "[" + i + "]", value: "'" + c + "'" }; });
+  var map = CPP101.renderBoxes(stage, defs);
+  word.split("").forEach(function (c, i) {
+    var box = document.getElementById(stage.id + "-box-" + i);
+    box.style.cursor = "pointer";
+    box.addEventListener("click", function () {
+      Object.keys(map).forEach(function (k) { map[k].root.classList.remove("flash"); });
+      map[i].root.classList.add("flash");
+      log.textContent = "word[" + i + "] == '" + c + "'";
+    });
+  });
+})();
+</script>
+</body>
+</html>
