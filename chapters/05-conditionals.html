@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5. Making Decisions — C++ From Zero</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" href="data:,">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <a class="brand" href="../index.html"><span class="logo-mark">{ }</span> C++ From Zero</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../getting-started.html">Getting Started</a>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">☾</button>
+  </nav>
+</header>
+
+<div class="page-shell">
+  <aside class="chapter-nav" data-chapter-nav><h4>Chapters</h4></aside>
+
+  <main class="content" id="main">
+    <span class="eyebrow">Chapter 5</span>
+    <h1>Making Decisions</h1>
+    <p class="lede">Real programs don't just run top to bottom — they branch, choosing different code to run depending on conditions. This is where <code>bool</code> expressions from Chapter 3 become powerful.</p>
+
+    <h2>The <code>if</code> statement</h2>
+    <pre class="code-block"><code>int age = 20;
+
+if (age &gt;= 18) {
+    std::cout &lt;&lt; "You can vote." &lt;&lt; std::endl;
+}</code></pre>
+    <p>The code inside <code>{ }</code> only runs if the condition in <code>( )</code> evaluates to <code>true</code>. If it's <code>false</code>, that block is skipped entirely.</p>
+
+    <div class="demo">
+      <div class="demo-title">Demo — walk through a branch</div>
+      <div class="demo-sub">Enter an age and evaluate <code>age &gt;= 18</code> to see which path the program takes.</div>
+      <div class="demo-controls" style="margin-bottom:0.6rem;">
+        <input type="number" id="cond-age" value="20">
+        <button class="btn btn-sm btn-primary" id="cond-run">Evaluate</button>
+      </div>
+      <div class="demo-stage" id="cond-stage"></div>
+      <div class="demo-log" id="cond-log">Enter an age above and press Evaluate.</div>
+    </div>
+
+    <h2><code>if</code> / <code>else</code></h2>
+    <pre class="code-block"><code>if (age &gt;= 18) {
+    std::cout &lt;&lt; "You can vote." &lt;&lt; std::endl;
+} else {
+    std::cout &lt;&lt; "Not yet — come back later." &lt;&lt; std::endl;
+}</code></pre>
+
+    <h2>Chaining with <code>else if</code></h2>
+    <p>Use this to check several conditions in order. C++ checks them top to bottom and runs the <strong>first</strong> one that's true, then skips the rest.</p>
+    <pre class="code-block"><code>int score = 72;
+
+if (score &gt;= 90) {
+    std::cout &lt;&lt; "Grade: A" &lt;&lt; std::endl;
+} else if (score &gt;= 80) {
+    std::cout &lt;&lt; "Grade: B" &lt;&lt; std::endl;
+} else if (score &gt;= 70) {
+    std::cout &lt;&lt; "Grade: C" &lt;&lt; std::endl;
+} else {
+    std::cout &lt;&lt; "Grade: F" &lt;&lt; std::endl;
+}</code></pre>
+    <div class="output-block">Grade: C</div>
+    <p>Even though <code>score &gt;= 70</code> and it's technically also true that nothing lower applies, only the <strong>first</strong> matching branch runs — the rest are skipped automatically.</p>
+
+    <h2>Combining conditions</h2>
+    <pre class="code-block"><code>bool hasTicket = true;
+int age = 15;
+
+if (age &gt;= 18 || hasTicket) {
+    std::cout &lt;&lt; "Entry allowed." &lt;&lt; std::endl;
+}
+
+if (age &gt;= 13 &amp;&amp; age &lt; 20) {
+    std::cout &lt;&lt; "Teenager." &lt;&lt; std::endl;
+}</code></pre>
+
+    <h2>The <code>switch</code> statement</h2>
+    <p>When you're comparing one variable against several exact values, <code>switch</code> can be more readable than a long <code>else if</code> chain. Don't forget <code>break;</code> — without it, execution "falls through" into the next case.</p>
+    <pre class="code-block"><code>int day = 3;
+
+switch (day) {
+    case 1:
+        std::cout &lt;&lt; "Monday" &lt;&lt; std::endl;
+        break;
+    case 2:
+        std::cout &lt;&lt; "Tuesday" &lt;&lt; std::endl;
+        break;
+    case 3:
+        std::cout &lt;&lt; "Wednesday" &lt;&lt; std::endl;
+        break;
+    default:
+        std::cout &lt;&lt; "Some other day" &lt;&lt; std::endl;
+}</code></pre>
+    <div class="output-block">Wednesday</div>
+
+    <h2>Practice</h2>
+
+    <div class="exercise">
+      <span class="ex-label">Exercise 1 — Predict the output</span>
+      <pre class="code-block"><code>int temp = 15;
+
+if (temp &gt; 30) {
+    std::cout &lt;&lt; "Hot" &lt;&lt; std::endl;
+} else if (temp &gt; 10) {
+    std::cout &lt;&lt; "Mild" &lt;&lt; std::endl;
+} else {
+    std::cout &lt;&lt; "Cold" &lt;&lt; std::endl;
+}</code></pre>
+      <div class="quiz predict-output" data-answer="Mild">
+        <div class="quiz-row">
+          <input type="text" placeholder="Type the output...">
+          <button class="btn btn-sm check-btn">Check</button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <span class="ex-label">Exercise 2 — Quick check</span>
+      <p>What happens if you forget <code>break;</code> in a <code>switch</code> case?</p>
+      <div class="quiz mcq" data-correct="0">
+        <div class="mcq-options">
+          <button data-choice="0">Execution "falls through" into the next case's code.</button>
+          <button data-choice="1">The program refuses to compile.</button>
+          <button data-choice="2">Nothing — <code>break</code> is optional and has no effect.</button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <span class="ex-label">Exercise 3 — Write it yourself</span>
+      <p>Write a program that reads a number and prints <code>"Positive"</code>, <code>"Negative"</code>, or <code>"Zero"</code> depending on its value.</p>
+      <details class="solution">
+        <summary>Show a sample solution</summary>
+        <pre class="code-block"><code>int n;
+std::cin &gt;&gt; n;
+
+if (n &gt; 0) {
+    std::cout &lt;&lt; "Positive" &lt;&lt; std::endl;
+} else if (n &lt; 0) {
+    std::cout &lt;&lt; "Negative" &lt;&lt; std::endl;
+} else {
+    std::cout &lt;&lt; "Zero" &lt;&lt; std::endl;
+}</code></pre>
+      </details>
+    </div>
+
+    <div class="complete-bar">
+      <label><input type="checkbox" id="mark-complete" data-chapter-id="05"> Mark this chapter complete</label>
+      <a class="btn btn-sm" href="../index.html">Back to overview</a>
+    </div>
+
+    <div class="chapter-footnav">
+      <a class="prev" href="04-input-output.html"><span class="dir">← Back</span>Input &amp; Output</a>
+      <a class="next" href="06-loops.html"><span class="dir">Next →</span>Loops</a>
+    </div>
+  </main>
+</div>
+
+<footer class="site-footer"><p>C++ From Zero — a free, static, no-tracking learning site.</p></footer>
+
+<script src="../js/main.js"></script>
+<script src="../js/highlight.js"></script>
+<script src="../js/quiz.js"></script>
+<script src="../js/animations.js"></script>
+<script>
+(function () {
+  var stage = document.getElementById("cond-stage");
+  var log = document.getElementById("cond-log");
+  var branch = CPP101.renderFlowBranch(stage, {
+    condition: "age >= 18",
+    trueLabel: '"You can vote."',
+    falseLabel: '"Come back later."'
+  });
+
+  document.getElementById("cond-run").addEventListener("click", function () {
+    var age = parseInt(document.getElementById("cond-age").value, 10) || 0;
+    var result = age >= 18;
+    branch.evaluate(result);
+    log.textContent = "age is " + age + ", so (age >= 18) is " + result + ". The " + (result ? "true" : "false") + " branch runs.";
+  });
+})();
+</script>
+</body>
+</html>

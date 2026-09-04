@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6. Loops — C++ From Zero</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" href="data:,">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <a class="brand" href="../index.html"><span class="logo-mark">{ }</span> C++ From Zero</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../getting-started.html">Getting Started</a>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">☾</button>
+  </nav>
+</header>
+
+<div class="page-shell">
+  <aside class="chapter-nav" data-chapter-nav><h4>Chapters</h4></aside>
+
+  <main class="content" id="main">
+    <span class="eyebrow">Chapter 6</span>
+    <h1>Loops</h1>
+    <p class="lede">Loops repeat a block of code without you writing it out multiple times. C++ gives you three main kinds: <code>for</code>, <code>while</code>, and <code>do-while</code>.</p>
+
+    <h2>The <code>for</code> loop</h2>
+    <pre class="code-block"><code>for (int i = 0; i &lt; 5; i++) {
+    std::cout &lt;&lt; i &lt;&lt; std::endl;
+}</code></pre>
+    <p>A <code>for</code> loop has three parts separated by semicolons:</p>
+    <ul>
+      <li><strong>Initialization</strong> — <code>int i = 0</code> — runs once, before the loop starts.</li>
+      <li><strong>Condition</strong> — <code>i &lt; 5</code> — checked before every iteration; the loop stops as soon as it's false.</li>
+      <li><strong>Update</strong> — <code>i++</code> — runs after every iteration.</li>
+    </ul>
+
+    <div class="demo">
+      <div class="demo-title">Demo — step through a for loop</div>
+      <div class="demo-sub">Change the loop bound and step through exactly what <code>i</code> does on each iteration.</div>
+      <div class="demo-controls" style="margin-bottom:0.6rem;">
+        <span style="font-family:'Cascadia Code',monospace; font-size:0.85rem;">for (int i = 0; i &lt;</span>
+        <input type="number" id="loop-n" value="5" min="1" max="10">
+        <span style="font-family:'Cascadia Code',monospace; font-size:0.85rem;">; i++)</span>
+        <button class="btn btn-sm" id="loop-build">Rebuild</button>
+      </div>
+      <div class="demo-stage" id="loop-stage"></div>
+      <div class="demo-controls" id="loop-controls">
+        <button class="btn btn-sm" data-role="next">Step ▸</button>
+        <button class="btn btn-sm" data-role="play">▶ Play</button>
+        <button class="btn btn-sm" data-role="reset">↺ Reset</button>
+      </div>
+      <div class="demo-log" id="loop-log"></div>
+    </div>
+
+    <h2>The <code>while</code> loop</h2>
+    <p>Use <code>while</code> when you don't know in advance how many times you'll repeat — you just keep going while a condition holds.</p>
+    <pre class="code-block"><code>int count = 0;
+while (count &lt; 3) {
+    std::cout &lt;&lt; "Counting: " &lt;&lt; count &lt;&lt; std::endl;
+    count++;
+}</code></pre>
+
+    <h2>The <code>do-while</code> loop</h2>
+    <p>Almost the same as <code>while</code>, but the condition is checked <em>after</em> the body runs — so the body always executes at least once.</p>
+    <pre class="code-block"><code>int input;
+do {
+    std::cout &lt;&lt; "Enter a positive number: ";
+    std::cin &gt;&gt; input;
+} while (input &lt;= 0);</code></pre>
+
+    <div class="callout pitfall">
+      <h4>Beware infinite loops</h4>
+      <p>If the condition never becomes false — say, you forget <code>count++;</code> — the loop runs forever and your program freezes. Always double check that something inside the loop moves you toward the stopping condition.</p>
+    </div>
+
+    <h2><code>break</code> and <code>continue</code></h2>
+    <pre class="code-block"><code>for (int i = 0; i &lt; 10; i++) {
+    if (i == 5) break;      // exit the loop immediately
+    if (i % 2 == 0) continue; // skip to the next iteration
+    std::cout &lt;&lt; i &lt;&lt; std::endl;
+}</code></pre>
+    <div class="output-block">1
+3</div>
+
+    <h2>Practice</h2>
+
+    <div class="exercise">
+      <span class="ex-label">Exercise 1 — Predict the output</span>
+      <pre class="code-block"><code>for (int i = 1; i &lt;= 4; i++) {
+    std::cout &lt;&lt; i * i &lt;&lt; std::endl;
+}</code></pre>
+      <div class="quiz predict-output" data-answer="1
+4
+9
+16">
+        <div class="quiz-row">
+          <input type="text" placeholder="Type all four lines...">
+          <button class="btn btn-sm check-btn">Check</button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <span class="ex-label">Exercise 2 — Quick check</span>
+      <p>Which loop guarantees its body runs at least once?</p>
+      <div class="quiz mcq" data-correct="2">
+        <div class="mcq-options">
+          <button data-choice="0"><code>for</code></button>
+          <button data-choice="1"><code>while</code></button>
+          <button data-choice="2"><code>do-while</code></button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <span class="ex-label">Exercise 3 — Write it yourself</span>
+      <p>Write a loop that prints the numbers from 10 down to 1, then prints <code>"Liftoff!"</code>.</p>
+      <details class="solution">
+        <summary>Show a sample solution</summary>
+        <pre class="code-block"><code>for (int i = 10; i &gt;= 1; i--) {
+    std::cout &lt;&lt; i &lt;&lt; std::endl;
+}
+std::cout &lt;&lt; "Liftoff!" &lt;&lt; std::endl;</code></pre>
+      </details>
+    </div>
+
+    <div class="complete-bar">
+      <label><input type="checkbox" id="mark-complete" data-chapter-id="06"> Mark this chapter complete</label>
+      <a class="btn btn-sm" href="../index.html">Back to overview</a>
+    </div>
+
+    <div class="chapter-footnav">
+      <a class="prev" href="05-conditionals.html"><span class="dir">← Back</span>Making Decisions</a>
+      <a class="next" href="07-functions.html"><span class="dir">Next →</span>Functions &amp; the Call Stack</a>
+    </div>
+  </main>
+</div>
+
+<footer class="site-footer"><p>C++ From Zero — a free, static, no-tracking learning site.</p></footer>
+
+<script src="../js/main.js"></script>
+<script src="../js/highlight.js"></script>
+<script src="../js/quiz.js"></script>
+<script src="../js/animations.js"></script>
+<script>
+(function () {
+  var stage = document.getElementById("loop-stage");
+  var log = document.getElementById("loop-log");
+  var controls = document.getElementById("loop-controls");
+  var controlsHTML = controls.innerHTML;
+  var player = null;
+
+  function build() {
+    controls.innerHTML = controlsHTML; // fresh buttons so old listeners don't stack up
+    var n = Math.max(1, Math.min(10, parseInt(document.getElementById("loop-n").value, 10) || 5));
+    var track = CPP101.renderTrack(stage, n, function (i) { return "i=" + i; });
+    var steps = [];
+    for (var i = 0; i < n; i++) {
+      (function (idx) {
+        steps.push({
+          label: "i = " + idx + "  →  cout << i;  prints " + idx,
+          run: function () { track.activate(idx); }
+        });
+      })(i);
+    }
+    steps.push({ label: "i = " + n + "  →  condition i < " + n + " is false, loop ends.", run: function () { track.activate(-1); } });
+
+    player = CPP101.stepper({
+      root: controls,
+      log: log,
+      reset: function () { track.reset(); },
+      steps: steps
+    });
+  }
+
+  build();
+  document.getElementById("loop-build").addEventListener("click", build);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2. Variables, Types &amp; Memory — C++ From Zero</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" href="data:,">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <a class="brand" href="../index.html"><span class="logo-mark">{ }</span> C++ From Zero</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../getting-started.html">Getting Started</a>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">☾</button>
+  </nav>
+</header>
+
+<div class="page-shell">
+  <aside class="chapter-nav" data-chapter-nav><h4>Chapters</h4></aside>
+
+  <main class="content" id="main">
+    <span class="eyebrow">Chapter 2</span>
+    <h1>Variables, Types &amp; Memory</h1>
+    <p class="lede">A variable is a named box in your computer's memory that holds a value. In this chapter you'll learn how to create them, what kinds of values they can hold, and what's really happening underneath.</p>
+
+    <h2>Declaring a variable</h2>
+    <p>To create a variable in C++ you state its <strong>type</strong> (what kind of value it holds), give it a <strong>name</strong>, and optionally give it a starting value:</p>
+    <pre class="code-block"><code>int age = 25;
+double price = 19.99;
+char grade = 'A';
+bool isRaining = false;
+std::string name = "Maya";</code></pre>
+    <p>Think of each variable as a labeled box. The type tells the compiler how big the box needs to be and what kind of data is allowed inside it.</p>
+
+    <div class="demo">
+      <div class="demo-title">Demo — variables as memory boxes</div>
+      <div class="demo-sub">Step through these declarations and watch each box get created and filled.</div>
+      <div class="demo-stage" id="mem-stage"></div>
+      <div class="demo-controls" id="mem-controls">
+        <button class="btn btn-sm" data-role="next">Step ▸</button>
+        <button class="btn btn-sm" data-role="play">▶ Play</button>
+        <button class="btn btn-sm" data-role="reset">↺ Reset</button>
+      </div>
+      <div class="demo-log" id="mem-log"></div>
+    </div>
+
+    <h2>The core built-in types</h2>
+    <table>
+      <thead><tr><th>Type</th><th>Holds</th><th>Typical size</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td><code>int</code></td><td>whole numbers</td><td>4 bytes</td><td><code>42</code>, <code>-7</code></td></tr>
+        <tr><td><code>double</code></td><td>decimal numbers</td><td>8 bytes</td><td><code>3.14</code>, <code>-0.5</code></td></tr>
+        <tr><td><code>char</code></td><td>a single character</td><td>1 byte</td><td><code>'A'</code>, <code>'7'</code></td></tr>
+        <tr><td><code>bool</code></td><td><code>true</code> or <code>false</code></td><td>1 byte</td><td><code>true</code></td></tr>
+        <tr><td><code>std::string</code></td><td>text</td><td>varies</td><td><code>"hello"</code></td></tr>
+      </tbody>
+    </table>
+    <p>A "byte" is 8 bits, and a bit is a single 0-or-1 switch. An <code>int</code> reserves 4 bytes — 32 switches — enough to represent about 4 billion distinct values.</p>
+
+    <div class="callout warn">
+      <h4>C++ is statically typed</h4>
+      <p>Once you declare a variable's type, it can never change. You can't put text into an <code>int</code> box. The compiler checks this <em>before</em> your program even runs, which catches a huge class of bugs early.</p>
+    </div>
+
+    <h2>Reassigning values</h2>
+    <p>You can change what's <em>inside</em> a box any time, as long as the new value matches the box's type:</p>
+    <pre class="code-block"><code>int score = 0;
+score = 10;      // score is now 10
+score = score + 5; // score is now 15</code></pre>
+    <p><code>score = score + 5;</code> means: compute <code>score + 5</code> using the <em>current</em> value first, then store the result back into <code>score</code>.</p>
+
+    <h2>Constants</h2>
+    <p>Sometimes you want a value that's never allowed to change. Use <code>const</code>:</p>
+    <pre class="code-block"><code>const double PI = 3.14159;
+// PI = 3;  // this line would fail to compile</code></pre>
+
+    <h2><code>sizeof</code> and <code>auto</code></h2>
+    <p>You can ask the compiler how many bytes a type uses with <code>sizeof</code>, and you can let it infer a variable's type from its initial value with <code>auto</code>:</p>
+    <pre class="code-block"><code>std::cout &lt;&lt; sizeof(int) &lt;&lt; std::endl;   // 4 (on most systems)
+auto count = 10;       // count is deduced to be int
+auto ratio = 0.5;      // ratio is deduced to be double</code></pre>
+
+    <h2>Practice</h2>
+
+    <div class="exercise">
+      <span class="ex-label">Exercise 1 — Predict the output</span>
+      <pre class="code-block"><code>int apples = 3;
+int oranges = 5;
+int total = apples + oranges;
+std::cout &lt;&lt; total &lt;&lt; std::endl;</code></pre>
+      <div class="quiz predict-output" data-answer="8">
+        <div class="quiz-row">
+          <input type="text" placeholder="Type the output...">
+          <button class="btn btn-sm check-btn">Check</button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <span class="ex-label">Exercise 2 — Quick check</span>
+      <p>Which declaration is valid C++?</p>
+      <div class="quiz mcq" data-correct="2">
+        <div class="mcq-options">
+          <button data-choice="0"><code>25 int age;</code></button>
+          <button data-choice="1"><code>int 25age;</code></button>
+          <button data-choice="2"><code>int age25 = 25;</code></button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+      <p style="font-size:0.85rem;color:var(--text-dim);margin-top:0.6em;">Rule of thumb: a variable name must start with a letter or underscore, never a digit.</p>
+    </div>
+
+    <div class="exercise">
+      <span class="ex-label">Exercise 3 — Write it yourself</span>
+      <p>Declare three variables describing yourself: your age (<code>int</code>), your height in meters (<code>double</code>), and whether you like C++ so far (<code>bool</code>). Print all three on separate lines.</p>
+      <details class="solution">
+        <summary>Show a sample solution</summary>
+        <pre class="code-block"><code>int age = 30;
+double heightMeters = 1.75;
+bool likesCpp = true;
+
+std::cout &lt;&lt; age &lt;&lt; std::endl;
+std::cout &lt;&lt; heightMeters &lt;&lt; std::endl;
+std::cout &lt;&lt; likesCpp &lt;&lt; std::endl;  // prints 1 for true, 0 for false</code></pre>
+      </details>
+    </div>
+
+    <div class="complete-bar">
+      <label><input type="checkbox" id="mark-complete" data-chapter-id="02"> Mark this chapter complete</label>
+      <a class="btn btn-sm" href="../index.html">Back to overview</a>
+    </div>
+
+    <div class="chapter-footnav">
+      <a class="prev" href="01-introduction.html"><span class="dir">← Back</span>How C++ Programs Work</a>
+      <a class="next" href="03-operators.html"><span class="dir">Next →</span>Operators &amp; Expressions</a>
+    </div>
+  </main>
+</div>
+
+<footer class="site-footer"><p>C++ From Zero — a free, static, no-tracking learning site.</p></footer>
+
+<script src="../js/main.js"></script>
+<script src="../js/highlight.js"></script>
+<script src="../js/quiz.js"></script>
+<script src="../js/animations.js"></script>
+<script>
+(function () {
+  var stage = document.getElementById("mem-stage");
+  var log = document.getElementById("mem-log");
+  var controls = document.getElementById("mem-controls");
+  stage.id = "mem-stage";
+
+  var varsDef = [
+    { id: "age", name: "age", type: "int", value: "" },
+    { id: "price", name: "price", type: "double", value: "" },
+    { id: "grade", name: "grade", type: "char", value: "" },
+    { id: "isRaining", name: "isRaining", type: "bool", value: "" }
+  ];
+  var map;
+
+  function render() { map = CPP101.renderBoxes(stage, varsDef); }
+  render();
+
+  CPP101.stepper({
+    root: controls,
+    log: log,
+    reset: render,
+    steps: [
+      { label: "int age = 25;  → reserve 4 bytes, store 25.", run: function () { CPP101.setBoxValue(map, "age", 25); } },
+      { label: "double price = 19.99;  → reserve 8 bytes, store 19.99.", run: function () { CPP101.setBoxValue(map, "price", 19.99); } },
+      { label: "char grade = 'A';  → reserve 1 byte, store 'A'.", run: function () { CPP101.setBoxValue(map, "grade", "'A'"); } },
+      { label: "bool isRaining = false;  → reserve 1 byte, store false.", run: function () { CPP101.setBoxValue(map, "isRaining", "false"); } },
+      { label: "age = 26;  → the box is reused, old value overwritten.", run: function () { CPP101.setBoxValue(map, "age", 26); } }
+    ]
+  });
+})();
+</script>
+</body>
+</html>

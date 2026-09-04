@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>11. Structs, Classes &amp; Objects — C++ From Zero</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" href="data:,">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <a class="brand" href="../index.html"><span class="logo-mark">{ }</span> C++ From Zero</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../getting-started.html">Getting Started</a>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">☾</button>
+  </nav>
+</header>
+
+<div class="page-shell">
+  <aside class="chapter-nav" data-chapter-nav><h4>Chapters</h4></aside>
+
+  <main class="content" id="main">
+    <span class="eyebrow">Chapter 11</span>
+    <h1>Structs, Classes &amp; Objects</h1>
+    <p class="lede">So far, related data has lived in separate variables — a name, a breed, an age, all disconnected. A <code>struct</code> lets you bundle them into a single custom type.</p>
+
+    <h2>Defining a struct</h2>
+    <pre class="code-block"><code>struct Dog {
+    std::string name;
+    std::string breed;
+    int age;
+};</code></pre>
+    <p><code>Dog</code> is now a new type, just like <code>int</code> or <code>std::string</code> — except you defined it. Create ("instantiate") a <code>Dog</code> and access its fields with a dot:</p>
+    <pre class="code-block"><code>Dog myDog;
+myDog.name = "Rex";
+myDog.breed = "Labrador";
+myDog.age = 3;
+
+std::cout &lt;&lt; myDog.name &lt;&lt; " is " &lt;&lt; myDog.age &lt;&lt; " years old." &lt;&lt; std::endl;</code></pre>
+
+    <div class="demo">
+      <div class="demo-title">Demo — building an object field by field</div>
+      <div class="demo-sub">All three fields live together inside one <code>Dog</code> object.</div>
+      <div class="demo-stage" id="obj-stage" style="flex-direction:column; align-items:flex-start;"></div>
+      <div class="demo-controls" id="obj-controls">
+        <button class="btn btn-sm" data-role="next">Step ▸</button>
+        <button class="btn btn-sm" data-role="play">▶ Play</button>
+        <button class="btn btn-sm" data-role="reset">↺ Reset</button>
+      </div>
+      <div class="demo-log" id="obj-log"></div>
+    </div>
+
+    <p>You can also initialize all fields at once:</p>
+    <pre class="code-block"><code>Dog myDog = {"Rex", "Labrador", 3};</code></pre>
+
+    <h2>From struct to class: adding behavior</h2>
+    <p>A <code>class</code> works almost identically to a <code>struct</code>, but is built for bundling <strong>data and the functions that operate on it</strong> together. Functions inside a class are called <strong>methods</strong>, called on a specific object with the dot operator.</p>
+    <pre class="code-block"><code>class Dog {
+public:
+    std::string name;
+    std::string breed;
+    int age;
+
+    void bark() {
+        std::cout &lt;&lt; name &lt;&lt; " says: Woof!" &lt;&lt; std::endl;
+    }
+
+    bool isPuppy() {
+        return age &lt; 1;
+    }
+};
+
+int main() {
+    Dog myDog;
+    myDog.name = "Rex";
+    myDog.age = 3;
+
+    myDog.bark();                              // "Rex says: Woof!"
+    std::cout &lt;&lt; myDog.isPuppy() &lt;&lt; std::endl; // 0 (false)
+    return 0;
+}</code></pre>
+
+    <div class="callout tip">
+      <h4>struct vs. class</h4>
+      <p>In C++ these are nearly the same thing — the only default difference is visibility (<code>struct</code> members are <code>public</code> by default; <code>class</code> members are <code>private</code>). Convention: use <code>struct</code> for simple data bundles, <code>class</code> when you're adding meaningful behavior or want to hide internal details.</p>
+    </div>
+
+    <h2><code>public</code> and <code>private</code></h2>
+    <p><code>public</code> members can be accessed from anywhere. <code>private</code> members can only be accessed from inside the class's own methods — this lets a class protect its internal data and guarantee it stays valid.</p>
+    <pre class="code-block"><code>class BankAccount {
+private:
+    double balance;   // outside code cannot touch this directly
+
+public:
+    void deposit(double amount) {
+        if (amount &gt; 0) balance += amount;   // validated here
+    }
+    double getBalance() {
+        return balance;
+    }
+};</code></pre>
+
+    <h2>Constructors</h2>
+    <p>A constructor is a special method that runs automatically when an object is created, useful for guaranteeing every object starts in a valid state:</p>
+    <pre class="code-block"><code>class Dog {
+public:
+    std::string name;
+    int age;
+
+    Dog(std::string n, int a) {   // constructor: same name as the class, no return type
+        name = n;
+        age = a;
+    }
+};
+
+int main() {
+    Dog myDog("Rex", 3);   // calls the constructor automatically
+    std::cout &lt;&lt; myDog.name &lt;&lt; std::endl;
+    return 0;
+}</code></pre>
+
+    <h2>Practice</h2>
+
+    <div class="exercise">
+      <span class="ex-label">Exercise 1 — Predict the output</span>
+      <pre class="code-block"><code>struct Point {
+    int x;
+    int y;
+};
+
+int main() {
+    Point p = {3, 4};
+    std::cout &lt;&lt; (p.x + p.y) &lt;&lt; std::endl;
+    return 0;
+}</code></pre>
+      <div class="quiz predict-output" data-answer="7">
+        <div class="quiz-row">
+          <input type="text" placeholder="Type the output...">
+          <button class="btn btn-sm check-btn">Check</button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <span class="ex-label">Exercise 2 — Quick check</span>
+      <p>By default, are a <code>struct</code>'s members <code>public</code> or <code>private</code>?</p>
+      <div class="quiz mcq" data-correct="0">
+        <div class="mcq-options">
+          <button data-choice="0">public</button>
+          <button data-choice="1">private</button>
+          <button data-choice="2">structs have no visibility concept</button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <span class="ex-label">Exercise 3 — Write it yourself</span>
+      <p>Write a <code>class Rectangle</code> with <code>double width</code> and <code>double height</code>, a constructor that sets both, and a method <code>double area()</code> that returns <code>width * height</code>. Create one in <code>main</code> and print its area.</p>
+      <details class="solution">
+        <summary>Show a sample solution</summary>
+        <pre class="code-block"><code>class Rectangle {
+public:
+    double width;
+    double height;
+
+    Rectangle(double w, double h) {
+        width = w;
+        height = h;
+    }
+
+    double area() {
+        return width * height;
+    }
+};
+
+int main() {
+    Rectangle r(4.0, 5.5);
+    std::cout &lt;&lt; r.area() &lt;&lt; std::endl; // 22
+    return 0;
+}</code></pre>
+      </details>
+    </div>
+
+    <div class="complete-bar">
+      <label><input type="checkbox" id="mark-complete" data-chapter-id="11"> Mark this chapter complete</label>
+      <a class="btn btn-sm" href="../index.html">Back to overview</a>
+    </div>
+
+    <div class="chapter-footnav">
+      <a class="prev" href="10-pointers-references.html"><span class="dir">← Back</span>Pointers &amp; References</a>
+      <a class="next" href="12-recursion.html"><span class="dir">Next →</span>Recursion</a>
+    </div>
+  </main>
+</div>
+
+<footer class="site-footer"><p>C++ From Zero — a free, static, no-tracking learning site.</p></footer>
+
+<script src="../js/main.js"></script>
+<script src="../js/highlight.js"></script>
+<script src="../js/quiz.js"></script>
+<script src="../js/animations.js"></script>
+<script>
+(function () {
+  var stage = document.getElementById("obj-stage");
+  var log = document.getElementById("obj-log");
+  var controls = document.getElementById("obj-controls");
+  var wrapper, inner, map;
+
+  function render() {
+    stage.innerHTML = "";
+    wrapper = document.createElement("div");
+    wrapper.className = "card";
+    wrapper.style.borderColor = "var(--accent)";
+    wrapper.style.padding = "1rem 1.2rem";
+
+    var title = document.createElement("div");
+    title.style.fontFamily = "'Cascadia Code',monospace";
+    title.style.fontSize = "0.78rem";
+    title.style.color = "var(--accent)";
+    title.style.marginBottom = "0.6rem";
+    title.style.fontWeight = "700";
+    title.textContent = "myDog : Dog";
+    wrapper.appendChild(title);
+
+    inner = document.createElement("div");
+    inner.style.display = "flex";
+    inner.style.gap = "0.8rem";
+    wrapper.appendChild(inner);
+    stage.appendChild(wrapper);
+
+    map = CPP101.renderBoxes(inner, [
+      { id: "name", name: "name", type: "string", value: "" },
+      { id: "breed", name: "breed", type: "string", value: "" },
+      { id: "age", name: "age", type: "int", value: "" }
+    ]);
+  }
+  render();
+
+  CPP101.stepper({
+    root: controls,
+    log: log,
+    reset: render,
+    steps: [
+      { label: "Dog myDog;  → one object is created holding all three fields.", run: function () {} },
+      { label: 'myDog.name = "Rex";', run: function () { CPP101.setBoxValue(map, "name", '"Rex"'); } },
+      { label: 'myDog.breed = "Labrador";', run: function () { CPP101.setBoxValue(map, "breed", '"Labrador"'); } },
+      { label: "myDog.age = 3;", run: function () { CPP101.setBoxValue(map, "age", 3); } },
+      { label: "myDog.bark();  → uses myDog's own name field → \"Rex says: Woof!\"", run: function () {
+          Object.keys(map).forEach(function (k) { map[k].root.classList.add("flash"); });
+        } }
+    ]
+  });
+})();
+</script>
+</body>
+</html>

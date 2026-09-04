@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>12. Recursion — C++ From Zero</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="icon" href="data:,">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <a class="brand" href="../index.html"><span class="logo-mark">{ }</span> C++ From Zero</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../getting-started.html">Getting Started</a>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">☾</button>
+  </nav>
+</header>
+
+<div class="page-shell">
+  <aside class="chapter-nav" data-chapter-nav><h4>Chapters</h4></aside>
+
+  <main class="content" id="main">
+    <span class="eyebrow">Chapter 12 — Final chapter</span>
+    <h1>Recursion</h1>
+    <p class="lede">Back in Chapter 7 you saw that every function call pushes a stack frame. Nothing stops a function from calling <em>itself</em> — that's recursion, and the call stack is exactly what makes it work.</p>
+
+    <h2>A recursive function has two parts</h2>
+    <ul>
+      <li><strong>Base case</strong> — the simplest input, answered directly, with no further recursive call. Without this, recursion never stops.</li>
+      <li><strong>Recursive case</strong> — solves a smaller version of the problem by calling itself, then combines that result into the current answer.</li>
+    </ul>
+
+    <h2>Classic example: factorial</h2>
+    <p><code>factorial(n)</code> (written <code>n!</code>) means <code>n × (n-1) × (n-2) × ... × 1</code>. Notice that <code>factorial(n) = n × factorial(n - 1)</code> — the problem contains a smaller version of itself.</p>
+    <pre class="code-block"><code>int factorial(int n) {
+    if (n &lt;= 1) {
+        return 1;               // base case
+    }
+    return n * factorial(n - 1); // recursive case
+}</code></pre>
+
+    <div class="demo">
+      <div class="demo-title">Demo — watch factorial(4) unfold on the call stack</div>
+      <div class="demo-sub">Frames pile up until the base case is hit, then each one returns and pops off, multiplying as it goes.</div>
+      <div class="demo-stage" id="rec-stage" style="min-height:260px; align-items:flex-end;"></div>
+      <div class="demo-controls" id="rec-controls">
+        <button class="btn btn-sm" data-role="next">Step ▸</button>
+        <button class="btn btn-sm" data-role="play">▶ Play</button>
+        <button class="btn btn-sm" data-role="reset">↺ Reset</button>
+      </div>
+      <div class="demo-log" id="rec-log"></div>
+    </div>
+
+    <p>Here's the sequence in words: <code>factorial(4)</code> needs <code>factorial(3)</code>, which needs <code>factorial(2)</code>, which needs <code>factorial(1)</code> — the base case, which returns <code>1</code> immediately with no further calls. Then each waiting call finishes its multiplication and returns, from the bottom up: <code>1 → 2×1=2 → 3×2=6 → 4×6=24</code>.</p>
+
+    <div class="callout pitfall">
+      <h4>Forgetting the base case = infinite recursion</h4>
+      <p>Just like a loop with no way to stop, a recursive function with no base case (or one that's never reached) will call itself forever — until it exhausts the call stack and crashes with a "stack overflow."</p>
+    </div>
+
+    <h2>Recursion vs. a loop</h2>
+    <p>Anything recursion can do, a loop can usually do too — and often faster, since it avoids the overhead of many function calls. Recursion tends to shine when a problem is naturally defined in terms of smaller versions of itself (tree structures, divide-and-conquer algorithms). Here's the same factorial with a loop, for comparison:</p>
+    <pre class="code-block"><code>int factorialLoop(int n) {
+    int result = 1;
+    for (int i = 2; i &lt;= n; i++) {
+        result *= i;
+    }
+    return result;
+}</code></pre>
+
+    <h2>Another example: Fibonacci</h2>
+    <pre class="code-block"><code>int fibonacci(int n) {
+    if (n &lt;= 1) {
+        return n;                                  // base case
+    }
+    return fibonacci(n - 1) + fibonacci(n - 2);      // recursive case
+}</code></pre>
+    <p>This one makes <strong>two</strong> recursive calls per step — the call "tree" branches, rather than forming a single chain. It's elegant but, for large <code>n</code>, quite slow, since it recomputes the same smaller values over and over.</p>
+
+    <h2>Practice</h2>
+
+    <div class="exercise">
+      <span class="ex-label">Exercise 1 — Predict the output</span>
+      <pre class="code-block"><code>int factorial(int n) {
+    if (n &lt;= 1) return 1;
+    return n * factorial(n - 1);
+}
+
+int main() {
+    std::cout &lt;&lt; factorial(5) &lt;&lt; std::endl;
+    return 0;
+}</code></pre>
+      <div class="quiz predict-output" data-answer="120">
+        <div class="quiz-row">
+          <input type="text" placeholder="Type the output...">
+          <button class="btn btn-sm check-btn">Check</button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <span class="ex-label">Exercise 2 — Quick check</span>
+      <p>What is guaranteed to go wrong if a recursive function has no base case?</p>
+      <div class="quiz mcq" data-correct="2">
+        <div class="mcq-options">
+          <button data-choice="0">It won't compile.</button>
+          <button data-choice="1">It will always return 0.</button>
+          <button data-choice="2">It will call itself forever and eventually crash (stack overflow).</button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <span class="ex-label">Exercise 3 — Write it yourself</span>
+      <p>Write a recursive function <code>int sumTo(int n)</code> that returns the sum of all whole numbers from <code>1</code> to <code>n</code> (e.g. <code>sumTo(4)</code> is <code>1+2+3+4 = 10</code>). Identify your base case first.</p>
+      <details class="solution">
+        <summary>Show a sample solution</summary>
+        <pre class="code-block"><code>int sumTo(int n) {
+    if (n &lt;= 1) {
+        return n;              // base case
+    }
+    return n + sumTo(n - 1);   // recursive case
+}
+
+int main() {
+    std::cout &lt;&lt; sumTo(4) &lt;&lt; std::endl; // 10
+    return 0;
+}</code></pre>
+      </details>
+    </div>
+
+    <div class="callout tip">
+      <h4>You made it!</h4>
+      <p>That's the foundation: variables, control flow, functions, arrays, strings, pointers, and objects. From here, natural next steps include the C++ Standard Template Library (STL) containers and algorithms, error handling with exceptions, and eventually more advanced object-oriented design. Nice work getting this far from zero.</p>
+    </div>
+
+    <div class="complete-bar">
+      <label><input type="checkbox" id="mark-complete" data-chapter-id="12"> Mark this chapter complete</label>
+      <a class="btn btn-sm" href="../index.html">Back to overview</a>
+    </div>
+
+    <div class="chapter-footnav">
+      <a class="prev" href="11-structs-classes.html"><span class="dir">← Back</span>Structs, Classes &amp; Objects</a>
+      <a class="next" href="../index.html"><span class="dir">Finished →</span>Back to course overview</a>
+    </div>
+  </main>
+</div>
+
+<footer class="site-footer"><p>C++ From Zero — a free, static, no-tracking learning site.</p></footer>
+
+<script src="../js/main.js"></script>
+<script src="../js/highlight.js"></script>
+<script src="../js/quiz.js"></script>
+<script src="../js/animations.js"></script>
+<script>
+(function () {
+  var stage = document.getElementById("rec-stage");
+  var log = document.getElementById("rec-log");
+  var controls = document.getElementById("rec-controls");
+  var stack;
+
+  function frameLabel(n, resultText) {
+    return "factorial(" + n + ")" + (resultText ? "  →  " + resultText : "");
+  }
+
+  var steps = [
+    { label: "main() calls factorial(4).", run: function (ctx) { ctx.f4 = stack.push(frameLabel(4)); } },
+    { label: "4 > 1, so factorial(4) calls factorial(3) and waits.", run: function (ctx) { ctx.f3 = stack.push(frameLabel(3)); } },
+    { label: "3 > 1, so factorial(3) calls factorial(2) and waits.", run: function (ctx) { ctx.f2 = stack.push(frameLabel(2)); } },
+    { label: "2 > 1, so factorial(2) calls factorial(1) and waits.", run: function (ctx) { ctx.f1 = stack.push(frameLabel(1)); } },
+    { label: "Base case! factorial(1) returns 1 with no further calls.", run: function (ctx) { ctx.f1.textContent = frameLabel(1, "returns 1"); } },
+    { label: "factorial(1) frame pops off, back to factorial(2).", run: function (ctx) { stack.pop(); } },
+    { label: "factorial(2) computes 2 * 1 = 2, and returns.", run: function (ctx) { ctx.f2.textContent = frameLabel(2, "returns 2"); } },
+    { label: "factorial(2) frame pops off, back to factorial(3).", run: function (ctx) { stack.pop(); } },
+    { label: "factorial(3) computes 3 * 2 = 6, and returns.", run: function (ctx) { ctx.f3.textContent = frameLabel(3, "returns 6"); } },
+    { label: "factorial(3) frame pops off, back to factorial(4).", run: function (ctx) { stack.pop(); } },
+    { label: "factorial(4) computes 4 * 6 = 24, and returns.", run: function (ctx) { ctx.f4.textContent = frameLabel(4, "returns 24"); } },
+    { label: "factorial(4) frame pops off. main() receives 24.", run: function (ctx) { stack.pop(); } }
+  ];
+
+  CPP101.stepper({
+    root: controls,
+    log: log,
+    reset: function () { stack = CPP101.makeStack(stage); },
+    steps: steps
+  });
+})();
+</script>
+</body>
+</html>

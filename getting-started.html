@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Getting Started — C++ From Zero</title>
+<meta name="description" content="Set up a C++ compiler in a couple of minutes, or use a free online compiler — then learn how this course site works.">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:,">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <a class="brand" href="index.html"><span class="logo-mark">{ }</span> C++ From Zero</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="chapters/01-introduction.html">Start Learning</a>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">☾</button>
+  </nav>
+</header>
+
+<main id="main" class="page-shell no-sidebar">
+  <span class="eyebrow">Before you start</span>
+  <h1>Getting set up</h1>
+  <p class="lede">You don't need anything installed to read the lessons — the animated
+  demos and quizzes all run right here in your browser. But whenever a chapter asks
+  you to "try it yourself," you'll want a real place to run C++ code. Pick one option below.</p>
+
+  <h2>Option A — an online compiler (fastest, 0 install)</h2>
+  <p>Great for the first few chapters while you're just getting a feel for the language.</p>
+  <ul>
+    <li><strong>onlinegdb.com</strong> — pick "C++" as the language, paste code, click Run.</li>
+    <li><strong>godbolt.org</strong> — great once you're curious what the compiler actually does.</li>
+    <li><strong>replit.com</strong> — create a free "C++" repl if you want your work saved.</li>
+  </ul>
+  <div class="callout tip">
+    <h4>Tip</h4>
+    <p>Every code example in this course is short enough to copy, paste, and run in about 10 seconds using any of these.</p>
+  </div>
+
+  <h2>Option B — install a compiler on your computer</h2>
+  <p>Worth doing once you're past the first few chapters and want a permanent setup.</p>
+
+  <h3>Windows</h3>
+  <ol>
+    <li>Install <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">Visual Studio Code</a> (a free code editor).</li>
+    <li>Install the <strong>MSYS2</strong> or <strong>MinGW-w64</strong> toolchain to get the <code>g++</code> compiler, or install the "Desktop development with C++" workload from Visual Studio Community.</li>
+    <li>In VS Code, install the "C/C++" extension from Microsoft.</li>
+  </ol>
+
+  <h3>macOS</h3>
+  <ol>
+    <li>Open Terminal and run <code>xcode-select --install</code> to get Apple's Clang compiler (which understands C++).</li>
+    <li>Install <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">Visual Studio Code</a> and its "C/C++" extension.</li>
+  </ol>
+
+  <h3>Linux</h3>
+  <ol>
+    <li>Install the GNU toolchain, e.g. on Debian/Ubuntu: <code>sudo apt install build-essential</code>.</li>
+    <li>Use any editor you like — VS Code, vim, or otherwise.</li>
+  </ol>
+
+  <h3>Compiling and running from the command line</h3>
+  <pre class="code-block"><code>g++ -std=c++17 -o hello hello.cpp
+./hello</code></pre>
+  <p>The first line <em>compiles</em> <code>hello.cpp</code> into a program named <code>hello</code>.
+  The second line <em>runs</em> that program. You'll see exactly this two-step pattern explained
+  with an animation in Chapter 1.</p>
+
+  <h2>How to use this site</h2>
+  <ul>
+    <li>Chapters are meant to be read <strong>in order</strong> — each one builds on the last.</li>
+    <li>Every animated demo has <strong>Step</strong> and <strong>Play</strong> buttons — use Step if you want to think about each change before it happens.</li>
+    <li>Exercises grade themselves instantly. Getting one wrong is expected and useful — read the feedback and try again.</li>
+    <li>Tick "Mark chapter complete" at the bottom of a chapter to track your progress on the home page. This is stored only in your browser (nothing is uploaded anywhere).</li>
+  </ul>
+
+  <div class="hero-actions" style="justify-content:flex-start; margin-top:2rem;">
+    <a class="btn btn-primary" href="chapters/01-introduction.html">Start Chapter 1 →</a>
+    <a class="btn" href="index.html">Back to overview</a>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <p>C++ From Zero — a free, static, no-tracking learning site.</p>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
